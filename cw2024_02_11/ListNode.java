@@ -2,8 +2,9 @@ import java.util.List;
 
 public class ListNode<Integer> {
     Node head;
+    Node tail;
     public ListNode() {
-        head = null;
+        head = null; tail = null;
     }
 
     public void printList() {
@@ -21,12 +22,11 @@ public class ListNode<Integer> {
         Node newNode = new Node(value);
         if (head == null) {
             head = newNode;
+            tail = newNode;
         } else {
-            Node currentNode = head;
-            while (currentNode.next != null) {
-                currentNode = currentNode.next;
-            }
+            Node currentNode = tail;
             currentNode.next = newNode;
+            tail = newNode;
         }
     }
 
@@ -44,7 +44,7 @@ public class ListNode<Integer> {
 
     public boolean find(int x) {
         Node currentNode = head;
-        while (currentNode.next != null) {
+        while (currentNode != tail.next) {
             if (currentNode.value == x) {
                 return true;
             }
@@ -83,6 +83,31 @@ public class ListNode<Integer> {
 
     }
 
+    public void addSort(int x) {
+        Node newNode = new Node(x);
+        Node curr = head;
+        if (head == null) {
+            head = newNode;
+            tail = newNode;
+            return;
+        } else if (head.value > newNode.value) {
+            newNode.next = head;
+            head = newNode;
+            tail = newNode.next;
+            return;
+        }
+        while (curr.next != null && curr.next.value < newNode.value) {
+            curr = curr.next;
+        }
+        if (curr.next == null) {
+            curr.next = newNode;
+            newNode.next = null;
+            tail = newNode;
+        } else {
+            newNode.next = curr.next;
+            curr.next = newNode;
+        }
+    }
 
     public void deleteTwoFirst() {
         if (head != null && head.next != null && head.next.next != null) {
